@@ -1,0 +1,13 @@
+- title: Getting Started
+  docs:
+  - quickstart
+  - FAQ
+  
+- title: Scripting / Development
+  docs:
+  - compilation
+  - protoinput
+
+- title: Game Guides
+  docs:
+  - games/minecraft
