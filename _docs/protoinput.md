@@ -171,6 +171,12 @@ Game.ProtoInput.AllowFakeCursorOutOfBounds = true;
 ```
 This can be useful as a workaround in some games that do not correctly reset the mouse cursor position to the window centre.
 
+Some games may detect mouse input with an offset, in which case some regions of the window would be inaccessible since Proto Input bounds the fake cursor to the window by default.
+```js
+Game.ProtoInput.ExtendFakeCursorBounds = true;
+```
+You can get around this problem with this option: it will allow the fake cursor to go slightly beyond the window boundaries, so all regions should be accessible.
+
 #### Send messages
 
 These settings will cause the Register Raw Input hook to send WM_MOUSEMOVE, etc messages when raw input is detected from the selected devices. These options should always be enabled
