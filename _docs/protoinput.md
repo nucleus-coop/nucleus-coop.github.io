@@ -241,6 +241,7 @@ Game.ProtoInput.OnInputUnlocked = function()
 }
 ```
 
+One important function call is `ProtoInput.SetRawInputBypass(player.ProtoInputInstanceHandle, true or false);`. This will let any raw input be forwarded to the game, regardless if the input device is selected or not. Note you must still have the RegisterRawInputDevices and GetRawInputData hook **enabled**. This function is important in games that use raw input in the menus, for example, so then you can use 'real' input when the input is unlocked.
 
 For a full example, this will default to not injecting any hooks, then install almost everything when input is locked, and uninstall it if input is locked again. Copy-pasting this example should usually be enough for most scripts.
 
@@ -278,7 +279,10 @@ Game.ProtoInput.InjectRuntime_EasyHookStealthMethod = false;
 // This hook should always be on, regardless of input lock
 Game.ProtoInput.RegisterRawInputHook = true;
 
-// We will be installing/uninstalling the filters manually so there's no need to 
+// This can always be enabled, since we are going to allow/disallow raw input with the bypass function
+Game.ProtoInput.GetRawInputDataHook = true;
+
+// We will be installing/uninstalling the filters manually so there's no need to
 Game.ProtoInput.MessageFilterHook = true;
 Game.ProtoInput.ClipCursorHook = true;
 Game.ProtoInput.FocusHooks = true;
@@ -290,7 +294,7 @@ Game.ProtoInput.SendMouseMovementMessages = true;
 Game.ProtoInput.SendKeyboardButtonMessages = true;
 
 // Handled on input lock/unlock, don't enable this by default
-Game.ProtoInput.EnableFocusMessageLoop = false; 
+Game.ProtoInput.EnableFocusMessageLoop = false;
 //Game.ProtoInput.FocusLoopIntervalMilliseconds = 5;
 //Game.ProtoInput.FocusLoop_WM_ACTIVATE = true;
 //Game.ProtoInput.FocusLoop_WM_ACTIVATEAPP = true;
@@ -323,56 +327,57 @@ Game.Hook.CustomDllEnabled = false;
 Game.ProtoInput.AutoHideTaskbar = true;
 
 Game.ProtoInput.OnInputLocked = function()
-{	
+{
 	for (var i = 0; i < PlayerList.Count; i++)
 	{
 		var player = PlayerList[i];
-			
+
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetCursorPosHookID);
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.SetCursorPosHookID);
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetKeyStateHookID);
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetAsyncKeyStateHookID);
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetKeyboardStateHookID);
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.CursorVisibilityStateHookID);
-		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetRawInputDataHookID);
-		
+
 		ProtoInput.InstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.FocusHooksHookID);
-		
+
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.RawInputFilterID);
-		
+
 		// Avoid the mouse move filter unless absolutely necessary as it can massively affect performance if the game gets primary input from mouse move moessages
 		//ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseMoveFilterID);
-		
+
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseActivateFilterID);
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.WindowActivateFilterID);
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.WindowActivateAppFilterID);
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseWheelFilterID);
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseButtonFilterID);
 		ProtoInput.EnableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.KeyboardButtonFilterID);
-		
+
 		ProtoInput.SetDrawFakeCursor(player.ProtoInputInstanceHandle, false);
-		
+
 		ProtoInput.StartFocusMessageLoop(player.ProtoInputInstanceHandle, 5, true, true, true, true, true);
+
+		// Disable the bypass: let the input be processed by Proto Input
+		ProtoInput.SetRawInputBypass(player.ProtoInputInstanceHandle, false);
 	}
 }
 
 Game.ProtoInput.OnInputUnlocked = function()
-{	
+{
 	for (var i = 0; i < PlayerList.Count; i++)
 	{
 		var player = PlayerList[i];
-		
+
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetCursorPosHookID);
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.SetCursorPosHookID);
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetKeyStateHookID);
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetAsyncKeyStateHookID);
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetKeyboardStateHookID);
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.CursorVisibilityStateHookID);
-		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.GetRawInputDataHookID);
-				
+
 		// Intentionally disable focus so all the instances don't respond to input at the same time
 		ProtoInput.UninstallHook(player.ProtoInputInstanceHandle, ProtoInput.Values.FocusHooksHookID);
-		
+
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.RawInputFilterID);
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseMoveFilterID);
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseActivateFilterID);
@@ -381,11 +386,14 @@ Game.ProtoInput.OnInputUnlocked = function()
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseWheelFilterID);
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.MouseButtonFilterID);
 		ProtoInput.DisableMessageFilter(player.ProtoInputInstanceHandle, ProtoInput.Values.KeyboardButtonFilterID);
-		
+
 		ProtoInput.SetDrawFakeCursor(player.ProtoInputInstanceHandle, false);
-		
+
 		// Intentionally disable focus so all the instances don't respond to input at the same time
-		ProtoInput.StopFocusMessageLoop(player.ProtoInputInstanceHandle);	
+		ProtoInput.StopFocusMessageLoop(player.ProtoInputInstanceHandle);
+
+		// Enable the bypass: allow any raw input to pass
+		ProtoInput.SetRawInputBypass(player.ProtoInputInstanceHandle, true);
 	}
 }
 ```
