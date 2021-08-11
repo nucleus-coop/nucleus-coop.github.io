@@ -203,6 +203,90 @@ Game.ProtoInput.FocusLoop_WM_ACTIVATEAPP = false;
 Game.ProtoInput.FocusLoop_WM_NCACTIVATE = false;
 ```
 
+### Multiple controller indices
+
+Some games have a built-in split screen, typically with a maximum of 2 or 4 players. You can combine this with Proto Input to open multiple instance, each with multiple players. This is done in Nucleus by setting the individual controller index mappings within a script. By default, Nucleus will tell Proto Input to use the controller index Player.GamepadId (i.e. the number labelled on the controller UI icon). To use multiple controller indices, set `Game.ProtoInput.MultipleProtoControllers = true;`. You then need to set Player.ProtoController1/2/3/4 for each player. A controller index of 0 means no controller, 1 means controller 1, etc. (Note that Player.GamepadId *starts* at zero, so if Player.GamepadId is 0 it actually means controller 1). A good idea is, for example with 3 players, to set controllers 1/4/7/10 to the first instance, 2/5/8/11 to the second instance and 3/6/9/12 to the third. Here is a snippet that does that:
+```js
+var answers = ["No", "Yes"];
+Game.AddOption("Use native split screen?", "", "NativeSplitScreen", answers);
+
+Game.ProtoInput.XinputHook = true;
+Game.ProtoInput.UseOpenXinput = true;
+
+Game.Play = function()
+{
+  if (Context.PlayerID == 0) // So the code only runs once
+  {
+    if (Context.Options["NativeSplitScreen"] == "No")
+    {
+      // Always explicitly set this option, in case the user stops split screen and changes the option
+      Game.ProtoInput.MultipleProtoControllers = false;
+    }
+    else
+    {
+      Game.ProtoInput.MultipleProtoControllers = true;
+
+      // The number of controller icons dragged onto the screens
+      var numPlayers = 0;
+
+      for (var i = 0; i < PlayerList.Count; i++)
+      {
+        var player = PlayerList[i];
+
+        if (player.IsXInput && player.ScreenIndex !== -1)
+        {
+          numPlayers++;
+        }
+
+        // These might not be reset between runs, so let's reset them here
+        // 0 means no controller, 1 means controller 1, etc
+        player.ProtoController1 = 0;
+        player.ProtoController2 = 0;
+        player.ProtoController3 = 0;
+        player.ProtoController4 = 0;
+      }
+
+      var controllerCounter = 1;
+      while (controllerCounter < numPlayers * 4)
+      {
+        for (var i = 0; i < PlayerList.Count; i++)
+        {
+          var player = PlayerList[i];
+
+          if (player.IsXInput && player.ScreenIndex !== -1)
+          {
+            if (player.ProtoController1 == 0)
+            {
+              player.ProtoController1 = controllerCounter;
+              controllerCounter++;
+            }
+            else if (player.ProtoController2 == 0)
+            {
+              player.ProtoController2 = controllerCounter;
+              controllerCounter++;
+            }
+            else if (player.ProtoController3 == 0)
+            {
+              player.ProtoController3 = controllerCounter;
+              controllerCounter++;
+            }
+            else if (player.ProtoController4 == 0)
+            {
+              player.ProtoController4 = controllerCounter;
+              controllerCounter++;
+            }
+            else
+            {
+              // This instance has all its controllers set already
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ### Advanced scripting
 
 The Proto Input API inside ProtoInputLoader is called by Nucleus when you set an option like `Game.ProtoInput.DrawFakeMouseCursor = false;`, for example. The "normal" way to write a script is to write all the options at the top of your script, then the corresponding hooks/etc will be installed once Proto Input is injected.
