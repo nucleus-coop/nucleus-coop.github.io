@@ -21,6 +21,15 @@ permalink: /docs/quickstart/
 
 
 * Move the NucleusCoop folder to wherever you like, and run NucleusCoop.exe
+  * You can place the folder wherever you like as long as you keep the following in mind:
+
+    * DO NOT place it inside a folder containing files for a game you wish to play.
+
+    * Avoid placing it inside a folder that has security settings applied to it, such as Program Files, Program Files (x86).
+
+    * Some scripts require the Nucleus Co-Op folder to be located in the same drive as the game files.
+
+    * If you are still unsure where to place the folder, the root of the drive your games are installed on is usually the best option. For example C:/NucleusCoop
 
 ### Game setup
 
