@@ -28,17 +28,17 @@ The further development of the app wouldn't have been possible without the amazi
 
 #### How does Nucleus Co-Op work?
 
-Essentially Nucleus Co-Op opens multiple instances of the same game (some games require mutex with symlinked files that will only answer to one specific gamepad (we do this via Nucleus Co-Op custom xinput libraries or xinput plus dlls) and connects those instances via LAN or steamworks online multiplayer emulation (Goldberg Emulator), while making sure all the windows have focus so they can be playable at the same time with multiple controllers or that the instances are playable even in the background. Nucleus then resizes, removes borders and repositions the games windows so you can have synthetic split-screen to play locally with your friends.
+Essentially Nucleus Co-Op opens multiple instances of the same game (some games require [mutex](https://en.wikipedia.org/?title=Mutex&redirect=no) killing for that, among other methods) with [symlinked](https://en.wikipedia.org/wiki/Symbolic_link) files that will only answer to one specific gamepad (we do this via Nucleus Co-Op custom xinput libraries or xinput plus dlls) and connects those instances via LAN or steamworks online multiplayer emulation (Goldberg Emulator), while making sure all the windows have focus so they can be playable at the same time with multiple controllers or that the instances are playable even in the background. Nucleus then resizes, removes borders and repositions the games windows so you can have synthetic split-screen to play locally with your friends.
 
-Note that Nucleus does not add multiplayer or co-op to single player games, the game needs to already have some form of online or LAN multiplayer, or another way to connect the instances like via mods for example.
+Note that Nucleus does not add multiplayer or co-op to single player games, the game needs to already have some form of online or LAN multiplayer, or another way to connect the instances like via mods for example (e.g. Skyrim Together).
 
 #### Which games can be split-screened using Nucleus Co-Op?
 
-There are a lot of supported games, all mentioned in the list below. A ton of games are now supported thanks to the amazing program called [Goldberg Emulator](https://gitlab.com/Mr_Goldberg/goldberg_emulator), developed by Mr. Goldberg, a big thank you to him. Read the [Goldberg FAQ](https://gitlab.com/Mr_Goldberg/goldberg_emulator/-/blob/master/README.md) if you want to know more.
+There are a lot of supported games, all mentioned in the [list of supported games](https://www.reddit.com/r/nucleuscoop/comments/opu0eg/list_of_nucleus_coop_supported_games/). A ton of games are now supported thanks to the amazing program called [Goldberg Emulator](https://gitlab.com/Mr_Goldberg/goldberg_emulator), developed by Mr. Goldberg, a big thank you to him. Read the [Goldberg FAQ](https://gitlab.com/Mr_Goldberg/goldberg_emulator/-/blob/master/README.md) if you want to know more.
 
 #### Where do I download Nucleus Co-Op?
 
-You can download latest version from the [Github releases](https://github.com/ZeroFox5866/nucleuscoop/releases). Download the compiled .rar release, don't download the source code zip if you just want to use the app. Mod v1.0.2 R5 is the latest version recent scripts are created for, please avoid other versions (like regular Alpha 8 and Alpha 10) as they are outdated now.
+You can download latest version from [Github](https://github.com/ZeroFox5866/nucleuscoop/releases). Download the compiled .zip release, don't download the source code zip if you just want to use the app. Mod v1.1.0 is the latest version recent scripts are created for, please avoid other versions (like regular Alpha 8 and Alpha 10) as they are outdated now.
 
 #### How do I use Nucleus Co-Op?
 
@@ -147,7 +147,7 @@ I'd really like this to get fixed please thanks magic man! -Beanboy
 ```
 Keep in mind most scripts are made and tested using the latest legit steam versions, so provide information about what version of the game you have.
 
-Also provide a debug log of the Nucleus Co-op error or crash, enable the debug log in Nucleus UI settings and save, the debug log will be created in Nucleus root folder where the .exe is. You can also ask for support in our discord.
+Also provide a debug log of the Nucleus Co-op error or crash: Open Nucleus Co-Op settings by pressing the gear icon at the top right of the Nucleus UI. Check the box labelled Enable Debug Log, then press Save and Close. Run the script you are having trouble with again and a log file will be created in the same folder as the Nucleus Co-Op exe, called debug-log.txt. You can also ask for support in our discord.
 
 #### A Nucleus Co-Op script doesn't launch / is not working, why?
 
@@ -201,26 +201,23 @@ The full registry path that may be effected is, the Personal key: `HKEY_CURRENT_
 
 #### My Playstation/generic PC controller isn't working/isn't being detected by Nucleus Co-Op, how do I fix it?
 
-Most Nucleus Co-Op Scripts only detect [XInput](https://en.wikipedia.org/wiki/DirectInput#DirectInput_vs_XInput) controllers. Controllers that work best are native XInput gamepads like Xbox 360 and Xbox One controllers for minimum hassle. There are a few scripts that also support Direct Input controllers but XInput controllers are generally a lot easier to restrict to a specific game instance than Direct Input gamepads.
+Most Nucleus Co-Op Scripts only detect and work with [XInput](https://en.wikipedia.org/wiki/DirectInput#DirectInput_vs_XInput) controllers. Controllers that work best are native XInput gamepads like Xbox 360 and Xbox One controllers for minimum hassle. There are a few scripts that also support DirectInput controllers but XInput controllers are generally a lot easier to restrict to a specific game instance than DirectInput controllers.
 
-If you are using PS4 controllers try the app DS4windows, look in the settings for an option called "hide ds4 controller" - make sure it's ticked. To ensure it's definitely running in exclusive mode make sure ds4windows is set to load on windows startup, then turn your controllers on while windows is loading. Download the latest version [here](https://ryochan7.github.io/ds4windows-site/
-).
+If you are using PS4 controllers try the app DS4windows, look in the settings for an option called "hide ds4 controller" - make sure it's ticked. To ensure it's definitely running in exclusive mode make sure ds4windows is set to load on windows startup, then turn your controllers on while windows is loading. Download the latest version [here](https://ryochan7.github.io/ds4windows-site/).
 
-All controllers need to have the tick for exclusive mode to work. Read more about how to use exclusive mode [here](https://bit.ly/377SUmh)
+Read more about how to use exclusive mode [here](https://bit.ly/377SUmh)
 
-If you are using generic direct input controllers the app [XOutput](https://github.com/Stents-/XOutput/releases) is also useful to emulate xinput gamepads.
+If you are using generic DirectInput controllers the app [XOutput](https://github.com/csutorasa/XOutput/releases) is also very useful to emulate XInput controllers. 
 
-The app [X360CE version 4](https://github.com/x360ce/x360ce/releases) that creates virtual Xbox 360 Controllers inside your Windows operating system is also very useful to emulate xinput gamepads system wide.
+Remember that some games detect both DirectInput and XInput controllers so even if you are emulating a XInput controller the input could still not be restricted correctly by Nucleus because the game is now responding to both the emulated XInput controller and to the native DirectInput of your controller, that is why some apps like DS4windows have an "exclusive mode".
 
-Do not place any x360ce xinput dlls inside the Nucleus Co-Op files as this might interfere with Nucleus own custom xinput dlls.
-
-Remember that some games detect both direct input and xinput gamepads so even if you are emulating a xinput gamepad the input could still not be restricted correctly because the game is now responding to both the emulated xinput gamepad and to the native direct input of your gamepad, that is why some apps like DS4windows have an "exclusive mode".
-
-The best way to block native dinput when emulating to xinput is using [HidHide](https://github.com/ViGEm/HidHide/releases).
+The best way to block the native DirectInput of a controller when emulating to XInput is using [HidHide](https://github.com/ViGEm/HidHide/releases). Follow this guide to learn how to use it: https://www.reddit.com/r/nucleuscoop/comments/mpx1w5/to_solve_doubled_not_working_properly_emulated/
 
 You can also try using [this .dll](http://www.mediafire.com/file/iuso0fmhjsao92g/dinput8.blocker.zip/file) made by wizark952 that blocks Direct Input in most games. Place the dll alongside the game's .exe and make sure you are using the correct version of the dll (for x86 or x64 games).
 
-Xbox One controllers have some [issues](http://www.snes9x.com/phpbb3/viewtopic.php?t=27510) with background input in games that only support direct input controllers and in Unity games that use Unity's default input for gamepad support. For this reason too the Xinput Reroute Nucleus option mentioned in the master script that reroutes directinput back to xinput to track more than 4 gamepads on xinput at once, allowing you to play with more than 4 xinput gamepads, will not work with Xbox One controllers even with fake focus because of the driver background input issue.
+Do not place any x360ce xinput dlls inside the Nucleus Co-Op files as this might interfere with Nucleus own custom xinput dlls.
+
+Xbox One controllers have some [issues](http://www.snes9x.com/phpbb3/viewtopic.php?t=27510) with background input in games that only support DirectInput controllers and in Unity games that use Unity's default input for gamepad support. For this reason too the Xinput Reroute Nucleus option mentioned in the master script that reroutes directinput back to xinput to track more than 4 gamepads on xinput at once, allowing you to play with more than 4 xinput gamepads, will not work with Xbox One controllers even with fake focus because of the driver background input issue. To fix that in those cases you can also use XOutput on your Xbox One controllers.
 
 If you are using steam controllers try [this](https://www.youtube.com/watch?v=wy4F2eqTXQ4).
 
