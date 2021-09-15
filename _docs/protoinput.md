@@ -163,7 +163,7 @@ In the GUI settings, you can enable `Freeze fake input` at any time to freeze in
 
 Enable this for games that don't have an in-game cursor
 ```js
-Game.ProtoInput.DrawFakeMouseCursor = false;
+Game.ProtoInput.DrawFakeCursor = false;
 ```
 
 If you want to allow the fake cursor to not be bound by the window boundaries, enable this
@@ -289,7 +289,7 @@ Game.Play = function()
 
 ### Advanced scripting
 
-The Proto Input API inside ProtoInputLoader is called by Nucleus when you set an option like `Game.ProtoInput.DrawFakeMouseCursor = false;`, for example. The "normal" way to write a script is to write all the options at the top of your script, then the corresponding hooks/etc will be installed once Proto Input is injected.
+The Proto Input API inside ProtoInputLoader is called by Nucleus when you set an option like `Game.ProtoInput.DrawFakeCursor = false;`, for example. The "normal" way to write a script is to write all the options at the top of your script, then the corresponding hooks/etc will be installed once Proto Input is injected.
 
 There are some drawbacks to immediately installing hooks though: the game will no longer respond to the "real" cursor, which can be problematic when setting up the instances, especially if you have some instances that use controllers. We can get around this by directly calling the API from within the Nucleus script. A slick technique is to install hooks/etc when the "real" input is locked, and uninstall the hooks/etc when the input is unlocked. This will mean the game always responds to either real input or fake input.
 
