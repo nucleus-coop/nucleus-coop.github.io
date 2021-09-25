@@ -3,6 +3,9 @@ title: Minecraft
 permalink: /docs/games/minecraft/
 ---
 
+### Video tutorial
+<iframe width="560" height="315" src="https://www.youtube.com/embed/x10rpef4eYk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### MultiMC (First time setup)
 
 To launch two separate Minecraft instances, we will need a launcher called MultiMC.
