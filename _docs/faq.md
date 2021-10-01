@@ -38,7 +38,7 @@ There are a lot of supported games, all mentioned in the [list of supported game
 
 #### Where do I download Nucleus Co-Op?
 
-You can download latest version from [Github](https://github.com/ZeroFox5866/nucleuscoop/releases). Download the compiled .zip release, don't download the source code zip if you just want to use the app. Mod v1.1.2 is the latest version recent scripts are created for, please avoid other versions (like regular Alpha 8 and Alpha 10) as they are outdated now.
+You can download latest version from [Github](https://github.com/ZeroFox5866/nucleuscoop/releases). Download the compiled .zip release, don't download the source code zip if you just want to use the app. Mod v1.1.3 is the latest version recent scripts are created for, please avoid other versions (like regular Alpha 8 and Alpha 10) as they are outdated now.
 
 #### How do I use Nucleus Co-Op?
 
