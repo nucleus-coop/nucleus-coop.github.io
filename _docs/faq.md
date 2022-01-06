@@ -145,7 +145,7 @@ SYSTEM: I'm on Windows 3.1 with 4MB of RAM, a 2KHz CPU and no graphics card, pla
 
 I'd really like this to get fixed please thanks magic man! -Beanboy
 ```
-Keep in mind most scripts are made and tested using the latest legit steam versions, so provide information about what version of the game you have.
+Keep in mind most scripts are made and tested using the latest legit Steam versions, so provide information about what version of the game you have.
 
 Also provide a debug log of the Nucleus Co-op error or crash: Open Nucleus Co-Op settings by pressing the gear icon at the top right of the Nucleus UI. Check the box labelled Enable Debug Log, then press Save and Close. Run the script you are having trouble with again and a log file will be created in the same folder as the Nucleus Co-Op exe, called debug-log.txt. You can also ask for support in our discord.
 
@@ -165,7 +165,11 @@ Make sure you are using latest Nucleus Co-Op version and the script latest versi
 
 6. If the script requires it move Nucleus to the same drive as your game.
 
-7. If you are using a script that creates different temporary windows users like the Halo: The Master Chief Collection online mode option script or the State of Decay 2 script, Nucleus Co-Op needs to be installed outside any user or protected folders, you need to have Nucleus installed in the root of your drive, for example C:/NucleusCo-Op. Make sure you close Nucleus using CTRL+Q and make sure to delete any Nucleus created windows users, if they remained after a crash, before running the script again. Delete them via windows control panel and delete any Nucleus user folders in C:/Users/ too, restart your PC if you can't delete the folders.
+7. If you are using a script that creates different temporary windows users like the Halo: The Master Chief Collection script when using the online mode UI option or the State of Decay 2 script, Nucleus Co-Op needs to be installed outside any user or protected folders, you need to have Nucleus installed in the root of your drive, for example C:/NucleusCo-Op. Make sure you close Nucleus using CTRL+Q and make sure to delete any Nucleus created windows users, if they remained after a crash, before running the script again. Delete them via windows control panel and delete any Nucleus user folders in C:/Users/ too, restart your PC if you can't delete the folders.
+
+8. Most scripts are made and tested using the latest legit Steam versions of games, so you need the Steam version unless the script notes or description say it works with other versions too (GoG, EGS).
+
+9. It is also possible that a script stops working if a game gets an update that adds big changes like cross-platform play, if you think that is the case report the issue so we can fix it.
 
 #### Where are my Nucleus Co-Op save files located?
 
@@ -183,7 +187,7 @@ Play around with those values depending on your resolution. You can also just ig
 
 #### Why is Nucleus Co-Op showing an error message that it can not find a file when launching a script?
 
-A lot of scripts edit the game's .ini or .cfg files to force windowed and to adjust the game's resolution to the window size, so make you sure you run your game at least once and change some graphic settings before running it via Nucleus Co-Op, that way you make sure the proper config files are getting generated first. If you are still getting the error after doing that, select the game in the Nucleus Co-Op UI, click on Game Options and select Delete UserProfile Config Path for all players.
+A lot of scripts edit the game's .ini or .cfg files to force windowed and to adjust the game's resolution to the window size, so make you sure you run your game at least once and change some graphic settings before running it via Nucleus Co-Op, that way you make sure the proper config files are getting generated first. If you are still getting the error after doing that, select the game in the Nucleus Co-Op UI, click on Game Options and select Delete UserProfile Config Path for all players. You can also try deleting Nucleus Co-Op content folder and add the game again. 
 
 #### Why are my in-game frames per second low/better in one instance than in the others when using Nucleus Co-Op?
 
